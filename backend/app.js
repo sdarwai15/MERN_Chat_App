@@ -21,4 +21,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//Importing routes
+const userRoutes = require("./routes/userRoutes");
+
+//Using routes
+app.use("/api/v1", userRoutes);
+
 module.exports = app;
