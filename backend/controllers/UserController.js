@@ -96,4 +96,18 @@ module.exports = {
 			next(error);
 		}
 	},
+
+	async logout(req, res, next) {
+		try {
+			res
+				.status(200)
+				.cookie("token", null, {
+					expires: new Date(Date.now()),
+					httpOnly: true,
+				})
+				.json({ success: true, message: "Logged out successfully" });
+		} catch (error) {
+			next(error);
+		}
+	},
 };
