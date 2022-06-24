@@ -51,4 +51,49 @@ module.exports = {
 			next(error);
 		}
 	},
+
+	async login(req, res, next) {
+		try {
+			const { email, password } = req.body;
+
+			// find user by email and select password
+			const foundUser = await userModel.findOne({ email }).select("+password");
+
+			if (!foundUser) {
+				res.status(404).json({
+					success: false,
+					errorCode: 404,
+					field: "User does not exist",
+				});
+			}
+
+			// check if password is correct
+			const isMatch = await foundUser.comparePassword(password);
+
+			if (!isMatch) {
+				res.status(401).json({
+					success: false,
+					errorCode: 401,
+					message: "Invalid email or password",
+				});
+			}
+
+			// generate token
+			const token = await foundUser.generateAuthToken();
+
+			//setting options for token
+			const options = {
+				expires: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
+				httpOnly: true,
+			};
+
+			// sending response with token and user data
+			res
+				.status(200)
+				.cookie("token", token, options)
+				.json({ success: true, foundUser, token });
+		} catch (error) {
+			next(error);
+		}
+	},
 };
