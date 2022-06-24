@@ -23,8 +23,10 @@ app.use(cookieParser());
 
 //Importing routes
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 //Using routes
-app.use("/api/v1", userRoutes);
+app.use("/user", userRoutes);
+app.use("/chat", chatRoutes);
 
 module.exports = app;
