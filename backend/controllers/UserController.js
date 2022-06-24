@@ -8,7 +8,7 @@ module.exports = {
 			// check if user has given all required fields
 			if (!name || !email || !password) {
 				res.status(400);
-                throw new Error("Please Enter all the mandatory Feilds");
+				throw new Error("Please Enter all the mandatory Feilds");
 			}
 
 			// check if user already exists
@@ -106,6 +106,28 @@ module.exports = {
 					httpOnly: true,
 				})
 				.json({ success: true, message: "Logged out successfully" });
+		} catch (error) {
+			next(error);
+		}
+	},
+
+	async allUsers(req, res, next) {
+        try {
+            
+            const keyword = req.query.search
+							? {
+									$or: [
+										{ name: { $regex: req.query.search, $options: "i" } },
+										{ email: { $regex: req.query.search, $options: "i" } },
+									],
+							  }
+							: {};
+
+			const users = await userModel
+				.find(keyword)
+                .find({ _id: { $ne: req.user._id } });
+            
+			res.status(200).json({ success: true, users });
 		} catch (error) {
 			next(error);
 		}

@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const { api_version } = require("../config/config");
 const { isAuthenticated } = require("../middlewares/auth");
-const { register, login, logout } = require("../controllers/UserController");
+const { register, login, logout, allUsers } = require("../controllers/UserController");
 
 /**
  * @desc Opens the api documentation page
- * @route GET /posts/api_version
+ * @route GET /user/api_version
  * @access Public
  **/
 
@@ -16,7 +16,7 @@ router.route("/api_ver").get(async (req, res) => {
 
 /**
  * @desc registers a new user
- * @route POST /api/v1/register
+ * @route POST /user/register
  * @access Public
  **/
 
@@ -24,7 +24,7 @@ router.route("/register").post(register);
 
 /**
  * @desc login a user
- * @route POST /api/v1/login
+ * @route POST /user/login
  * @access Public
  **/
 
@@ -32,10 +32,18 @@ router.route("/login").post(login);
 
 /**
  * @desc logout a user
- * @route GET /api/v1/logout
+ * @route GET /user/logout
  * @access Public
  **/
 
 router.route("/logout").get(isAuthenticated, logout);
+
+/**
+ * @desc fetches user throught search
+ * @route GET /user
+ * @access Private
+ **/
+
+router.route("/").get(isAuthenticated, allUsers);
 
 module.exports = router;
