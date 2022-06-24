@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { api_version } = require("../config/config");
-const { register } = require("../controllers/UserController");
+const { register, login } = require("../controllers/UserController");
 
 /**
  * @desc Opens the api documentation page
@@ -20,5 +20,13 @@ router.route("/api_ver").get(async (req, res) => {
  **/
 
 router.route("/register").post(register);
+
+/**
+ * @desc login a user
+ * @route POST /api/v1/login
+ * @access Public
+ **/
+
+router.route("/login").post(login);
 
 module.exports = router;
