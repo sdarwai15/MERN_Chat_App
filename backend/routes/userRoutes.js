@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { api_version } = require("../config/config");
-const { register, login } = require("../controllers/UserController");
+const { isAuthenticated } = require("../middlewares/auth");
+const { register, login, logout } = require("../controllers/UserController");
 
 /**
  * @desc Opens the api documentation page
@@ -28,5 +29,13 @@ router.route("/register").post(register);
  **/
 
 router.route("/login").post(login);
+
+/**
+ * @desc logout a user
+ * @route GET /api/v1/logout
+ * @access Public
+ **/
+
+router.route("/logout").get(isAuthenticated, logout);
 
 module.exports = router;
