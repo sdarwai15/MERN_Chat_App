@@ -1,5 +1,4 @@
 const UserModel = require("../models/UserModel");
-const ApiError = require("../errors/handler");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -19,7 +18,7 @@ module.exports = {
 						},
 					],
 				});
-				
+
 				return;
 			}
 
@@ -29,7 +28,18 @@ module.exports = {
 			const user = await UserModel.findById(decoded._id);
 			if (!user) {
 				// if user not found, return error
-				return next(ApiError.unauthorized("Please Login first"));
+				res.status(401).json({
+					description: "Authorization token is required in headers",
+					errors: [
+						{
+							errorCode: 401,
+							field: "Authorization",
+							message: "User not found",
+						},
+					],
+				});
+
+				return;
 			}
 			// if user found, set user to req.user
 			req.user = user;
