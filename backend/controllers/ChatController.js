@@ -51,20 +51,18 @@ module.exports = {
 
 	async fetchChats(req, res, next) {
 		try {
-			const results = await Chat.find({
-				users: { $elemMatch: { $eq: req.user._id } },
-			})
-				.populate("users", "-password")
-				.populate("groupAdmin", "-password")
-				.populate("latestMessage")
-				.sort({ updatedAt: -1 });
-
-			results = await User.populate(results, {
-				path: "latestMessage.sender",
-				select: "name pic email",
-            });
-            
-			res.status(200).json(results);
+			 Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+					.populate("users", "-password")
+					.populate("groupAdmin", "-password")
+					.populate("latestMessage")
+					.sort({ updatedAt: -1 })
+					.then(async (results) => {
+						results = await User.populate(results, {
+							path: "latestMessage.sender",
+							select: "name pic email",
+						});
+						res.status(200).send(results);
+					});
 		} catch (error) {
 			next(error);
 		}

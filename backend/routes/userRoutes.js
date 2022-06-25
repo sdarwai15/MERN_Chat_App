@@ -40,7 +40,7 @@ router.route("/logout").get(isAuthenticated, logout);
 
 /**
  * @desc fetches user throught search
- * @route GET /user
+ * @route GET /user?search=:search
  * @access Private
  **/
 

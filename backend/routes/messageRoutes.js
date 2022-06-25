@@ -8,7 +8,7 @@ const {
 
 /**
  * @desc get all messages
- * @route GET /chat/:chatId
+ * @route GET /message/:chatId
  * @access Private
  **/
 
@@ -16,7 +16,7 @@ router.route("/:chatId").get(isAuthenticated, allMessages);
 
 /**
  * @desc sends a message
- * @route POST /chat
+ * @route POST /message
  * @access Private
  **/
 

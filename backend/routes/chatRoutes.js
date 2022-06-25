@@ -7,7 +7,7 @@ const {
 	createGroupChat,
 	renameGroup,
 	removeFromGroup,
-    addToGroup,
+	addToGroup,
 } = require("../controllers/ChatController");
 
 /**
@@ -28,15 +28,15 @@ router.route("/").get(isAuthenticated, fetchChats);
 
 /**
  * @desc creates a group chat
- * @route GET /chat/group
+ * @route POST /chat/group
  * @access Private
  **/
 
-router.route("/group").get(isAuthenticated, createGroupChat);
+router.route("/group").post(isAuthenticated, createGroupChat);
 
 /**
  * @desc renames a group chat
- * @route GET /chat/rename
+ * @route PATCH /chat/rename
  * @access Private
  **/
 
@@ -44,7 +44,7 @@ router.route("/rename").patch(isAuthenticated, renameGroup);
 
 /**
  * @desc removes a user from a group chat
- * @route GET /chat/groupremove
+ * @route PATCH /chat/groupremove
  * @access Private
  **/
 
@@ -52,7 +52,7 @@ router.route("/groupremove").patch(isAuthenticated, removeFromGroup);
 
 /**
  * @desc adds a user to a group chat
- * @route GET /chat/groupadd
+ * @route PATCH /chat/groupadd
  * @access Private
  **/
 
