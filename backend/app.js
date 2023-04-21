@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 
 // if not in production, set dotenv to load .env file
 if (process.env.NODE_ENV !== "production") {
-	require("dotenv").config({ path: "backend/config/config.env" });
+	require("dotenv").config({ path: "backend/config/.env" });
 }
 
 // Serve static assets if in production
