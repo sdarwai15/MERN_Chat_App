@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 // if not in production, set dotenv to load .env file
 if (process.env.NODE_ENV !== "production") {
